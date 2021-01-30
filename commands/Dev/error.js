@@ -4,7 +4,7 @@ const botUtils = require("../../utils.js");
 module.exports = {
   // Execução do comando
   run: (client, message, args) => {
-    if (!botUtils.isDev(message.author.id)) return message.channel.send("Voce não tem permissão para executar esse comando")
+    if (!botUtils.isDev(message.author.id)) return message.channel.send("You arent allowed to execute this command")
 
     newError = botUtils.newError;
     isDir = botUtils.isDir;
@@ -14,12 +14,12 @@ module.exports = {
         let embed = new Discord.MessageEmbed()
           .setColor("RANDOM")
           .setTimestamp()
-          .setDescription(`${client.config.prefix}error [opção]`)
-          .addField("clear", "Limpa todos os erros")
-          .addField("delete [ID]", "Apaga um erro especifico")
-          .addField("list", "Lista todos os erros")
-          .addField("last", "Mostra o ultimo erro")
-          .addField("search <ID>", "Procura um erro contendo o id fornecido")
+          .setDescription(`${client.config.prefix}error [option]`)
+          .addField("clear", "Clear all Errors")
+          .addField("delete [ID]", "Clear a specific error")
+          .addField("list", "List all errors")
+          .addField("last", "Shows the last error")
+          .addField("search <ID>", "Searches for an error containing the given id")
         message.channel.send(embed);
         return;
       }
@@ -27,7 +27,7 @@ module.exports = {
       switch (args[0]) {
         case "clear": {
           botUtils.clearAllErrors();
-          message.reply(" todos os erros foram limpos");
+          message.reply(" all errors have been cleared");
           break;
         }
         case "delete": {
@@ -41,13 +41,13 @@ module.exports = {
               let pull = require(`../../errors/${error}`);
               if (pull.errorID == args[1]) {
                 botUtils.deleteError(error);
-                message.channel.send("Erro deletado");
+                message.channel.send("Error deleted");
                 deleted = true;
               }
             });
 
             if (!deleted) {
-              message.channel.send("Nenhum erro encontrado com esse ID");
+              message.channel.send("No errors found with this ID");
             }
             return;
           }
@@ -60,19 +60,19 @@ module.exports = {
             });
           } else {
             let embednerrors = new Discord.MessageEmbed()
-              .setTitle("Não existe erros no momento")
-              .setDescription("Que milagre")
+              .setTitle("There are no errors at the moment")
+              .setDescription("What a miracle")
               .setTimestamp()
-              .setColor("RANDOM")
+              .setColor('#00FF00')
             message.channel.send(embednerrors);
             return;
           }
 
           let embederrors = new Discord.MessageEmbed()
-            .setTitle("Escolha o erro a ser deletado")
+            .setTitle("Choose the error to be deleted")
             .setDescription(errorsString)
             .setTimestamp()
-            .setColor("RANDOM")
+            .setColor("#00ff00")
           message.channel.send(embederrors)
             .then(m => {
               let filter = (msg) => (((!isNaN(msg.content) && parseInt(msg.content)) || (msg.content == "exit" || msg.content == "finish")) && msg.author.id == message.author.id);
@@ -106,18 +106,18 @@ module.exports = {
             });
           } else {
             let embednerrors = new Discord.MessageEmbed()
-              .setTitle("Não existe erros no momento")
-              .setDescription("Que milagre")
+              .setTitle("There are no errors at the moment")
+              .setDescription("What a miracle")
               .setTimestamp()
-              .setColor("RANDOM")
+              .setColor('#00FF00')
             message.channel.send(embednerrors);
             return;
           }
 
           let embedListErrors = new Discord.MessageEmbed()
-            .setColor("RANDOM")
+            .setColor('#00FF00')
             .setTimestamp()
-            .setTitle("Lista de erros");
+            .setTitle("List of errors");
 
           errorsArray.forEach(er => { embedListErrors.addField(`${i++} - ${er.thisfile}`, `${er.msg}\n\nData: ${er.date}\nID: ${er.errorID}`); });
 
@@ -133,10 +133,10 @@ module.exports = {
 
           if (errors.length == 0) {
             let embednerrors = new Discord.MessageEmbed()
-              .setTitle("Não existe erros no momento")
-              .setDescription("Que milagre")
+              .setTitle("There are no errors at the moment")
+              .setDescription("What a miracle")
               .setTimestamp()
-              .setColor("RANDOM")
+              .setColor('#00FF00')
             message.channel.send(embednerrors);
             return;
           }
